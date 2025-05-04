@@ -1,0 +1,482 @@
+
+\documentclass[10pt,twocolumn]{article}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Page size and margins
+\usepackage[letterpaper,top=2.5cm,bottom=2.5cm,left=3cm,right=3cm]{geometry}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{titling}  % Custom title page
+\usepackage{float}
+\usepackage{fancyhdr} % Optional: for nice headers/footers
+\usepackage{array}  % Add to your preamble for custom column formatting
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{siunitx} % optional but useful for aligning numbers
+\setlength{\columnsep}{1.5cm}         % Optional: sets space between columns
+\setlength{\columnseprule}{0.4pt}   % This adds the vertical line between columns
+
+
+% Title and author information
+\title{\Huge \textbf{Can'tSat: Pre-Launch Report}}
+\author{\large Ryan Xu, Ayman Gani, Brooke Mahajan, Matthew Liu, Afnan Rajab}
+\date{\large April 2025}
+
+
+\begin{document}
+
+% Custom title page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+
+    \includegraphics[width=0.25\linewidth]{Preliminary Report - Can'tSat/images/image12.png}\par\vspace{1cm}
+
+    {\Huge \bfseries Can'tSat: Pre-Launch Report\par}
+    \vspace{1.5cm}
+
+    {\Large Ryan Xu, Ayman Gani, Brooke Mahajan, Matthew Liu, Afnan Rajab \par}
+    \vspace{1cm}
+
+    {\large April 2025 \par}
+    
+    \vfill
+    \textit{Prepared for the Can'tSat Pre-Launch Submission} \par
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+    
+
+\section{Introduction}
+
+\subsection{\textbf{Team organization and roles}}
+The Can'tSat team is made up of 5 team members and 1 mentor, coming together through a shared passion and interest in engineering.
+
+\begin{itemize}
+    \item \textbf{Ryan Xu (16)} -\textbf{ Team leader}: Ryan, having a great interest in engineering since a young age, gathered the team together as a way to further explore his passion in the subject. In the project, he is responsible for delegating roles, 3D modelling and printing the CanSat, and building parts of the CanSat itself with the help of Ishan. 
+
+    \item \textbf{Ayman Gani (16)} - \textbf{Chief Software Engineer}: Ayman was drawn to this challenge from his interest in software, hardware, and technology. He loves working on similar types of projects in his free time. He worked on a variety of the parts of our CanSat, primarily including the software and programming involved in our microcontroller and our ground station.
+
+    \item \textbf{Afnan Rajab (16) - Sponsorship Head}: Afnan Rajab has always been quite curious about both aviation and engineering, even from a young age. This has cultivated into a great passion for technology. Whether he's exploring theoretical concepts or working on hands-on projects, Afnan thrives on solving complex problems and pushing the boundaries of innovation. In his free time, he enjoys playing lots of music, volunteering in various music related activities and participating in his school band.
+
+    \item \textbf{Ishan Mahajan (16) - Hardware Technician}: Ishan has a deep curiosity for physics and technology and has experience in miniature electronics.  He was responsible for the planning and construction of the CanSat and the ground receiver along with helping research what parts should be integrated into the project.
+
+    \item \textbf{Matthew Liu (16) - Outreach Manager}: Matthew is a talented individual who thrives on curiosity and intellectual engagement, leading him to participate in this challenge. His ability to problem solve and critically think has proven very useful and often crucial in the team. He likes to draw.
+
+    \item \textbf{Wensheng Xu (55) - Team Advisor}: Wensheng, or Jack, was born and raised in Northwestern China. He earned his degree in engineering and worked as a maintenance engineer for 12 years before emigrating China and moving to Canada, where he now works as an exemplary electronic technician. 
+
+\end{itemize}
+Although a large portion of our group attends the same school, we have opted not to work on this project at school due to project safety and time constraints. Instead, we meet up in person to make progress on our CanSat, working on our individual tasks separately.
+
+Although a large portion of our group attends the same school, we have opted not to work on this project at school due to project safety and time constraints. Instead, we meet up in person to make progress on our CanSat, working on our individual tasks separately.
+
+\subsection{\textbf{Mission objectives}}
+
+We primarily aim to benefit pilots and aviation by providing them with useful information about the conditions they are flying in. Takeoff and landing are some of the most dangerous periods of flight, so collecting relevant atmospheric information at low elevations is critical to minimizing errors and injury.
+
+Our goal is to provide a simple, open-source, exceptionally cheap, upgradable, and repeatable method to collect data at low elevations, so that both takeoff and landing can be performed with greater security. Our CanSat will measure air temperature, pressure, and latitude and longitude via sensors, and relay this information to our ground station. Using these values, we will derive wind speed and direction, wind shear, elevation, and turbulence. We will plot the flight path and corresponding data on a simulation of the surrounding area on our ground station, making it easier to visualize areas of high wind shear or other forms of variance. This data will then be transformed into a standardized AMDAR signal that can be easily sent to and understood by pilots.
+
+The CanSat is to be no higher than 115 millimetres and its diameter no larger than 66 millimetres. The weight should be between 300 grams and 350 grams. The CanSat will be launched from a rocket and deployed at approximately 1,000 metres. The CanSat’s recovery system includes a parachute attached to the actual CanSat by various paracords. Optimally, the CanSat is to descend at a rate between 5 meters per second and 8 meters per second and during its descent, it should be taking measurements constantly and simultaneously transmitting it to our ground station via radio.
+
+
+\section{\textbf{CanSat Description}}
+
+\subsection{\textbf{Mission Overview}}
+\subsubsection{\textbf{Primary Mission}}
+
+The primary mission of our CanSat is to collect temperature and pressure data while our CanSat is in the air after deployment, and transmit that data to the ground station.
+
+\subsubsection{\textbf{Secondary Mission}}
+
+The secondary mission of our CanSat is to measure AMDAR information at various altitudes. This data will be greatly beneficial for pilots as they have more accurate readings on the conditions near takeoff and landing. Since the general audience for this data are pilots and ground stations, we will transform the data into various palatable forms such as AMDAR strings, AMDAR binary, and a 3D map visualization.
+
+AMDAR is an acronym for Aircraft Meteorological Data Relay, and is a system created by the World Meteorological Organization. It is used to collect data such as air temperature, pressure, wind speed and direction, turbulence, and wind shear. However, most AMDAR data collections happen up in the air in commercial aircrafts, and then sent all the way down to ground stations. Since we will not be going up as high, our data will be more applicable and more accurate to conditions near the ground for takeoff and landing purposes.
+
+METAR is a format for reporting weather conditions, and is the most common format in the world for transmitting these weather observations. METAR is used mainly by pilots and meteorologists, but requires the same data as AMDAR- the only difference is how the information is compiled and presented. For that, we decided to create programs that can do the organization and translation of the data for us.
+
+The raw data we plan on measuring depends on sensors as most other measurement instruments are either too big for our CanSat project or simply cannot take accurate readings as we are falling at a rate of approximately 8m/s.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image10.png}  
+\caption{\label{fig:DataFlowDiagram} Outlines Data Flow}
+\end{figure}
+
+\subsection{\textbf{Mechanical/Structural Design}}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{2.5cm}|p{4cm}|}
+\hline
+\textbf{Component} & \textbf{Function} \\\hline
+BME280 & Pressure, temperature, and humidity sensor. May need further testing and calibration for accuracy. \\
+MPU-6050 & Accelerometer \\
+NEO-6M & GPS module and altimeter \\
+LoRa E32 & Data transmitter \\
+Raspberry Pi Pico & Main microcontroller \\
+Power Button & Turns CanSat On/Off \\
+Radio Antenna & Extends range of radio module \\
+\hline
+\end{tabular}
+\caption{\label{tab:Components}Components Used}
+\end{table}
+
+The CanSat is separated into 5 layers for organization and wiring purposes. Our data transmitter is on the outermost layer so that the data transmission process is as smooth as possible. The microcontroller is in the middle layer to minimize the distance between other layers and it. The batteries are on the bottom layer to provide weight so that the CanSat would be able to descend in the proper orientation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image16.png}  
+\caption{\label{fig:MechDesign} Mechanical Design of the CanSat}
+\end{figure}
+
+\subsection{\textbf{Electrical Design}}
+
+We have opted to use the BME280 provided in the CanSat kits for the measuring of air pressure, temperature and humidity, as well as for altitude measurements. This choice was based mostly on the fact that this single part can measure many of the parameters that we need in order to produce meaningful data for our AMDAR reports. Additionally the fact that this part was provided to us in the CanSat kit means we do not have to spend additional money on parts.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image14.png}  
+\caption{\label{fig:BlockDiagram} Block Diagram of BMP280}
+\end{figure}
+
+
+\begin {itemize}
+\item \textbf{VDD}: Used to provide power to all functional components
+\item \textbf{VVDIO}*: Used to provide power for the digital interface
+\item \textbf{SDI}: Serial Digital Interface, will connect to microcontroller’s I2C data line
+\item \textbf{SDO}: Serial Data Out, transfers data out to another device
+\item \textbf{SCK}: Serial Clock, carries clock pulses to synchronize data transmission
+\item \textbf{CSB}**: Chip select, switches from I2C to SPI if connected to ground
+\item \textbf{GND}: Ground, provides safe path for electricity to escape
+\end {itemize}
+
+\noindent*Not part of our BME280 as a VIN line powers both the functional blocks and the digital interface\\
+\noindent**Not part of our BME280 as our part is only capable of using an I2C protocol, which makes a CSB line useless\\
+
+To measure the CanSat’s acceleration we are using the provided MPU-6050. This choice was made with similar reasoning as the last, being that since this was provided in the CanSat kits, no extra funding will be required to procure new parts, as well as this being good enough for our purposes. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image24.png}  
+\caption{\label{fig:MPU-6050} Top View of MPU-6050}
+\end{figure}
+
+
+\begin {itemize}
+\item \textbf{SDA}: Serial Data, required for $I^2$C connection
+\item \textbf{SCL}: Serial Clock, carries clock pulses to synchronize data transmission
+\item \textbf{GND}: Ground, provides a safe path for excess electricity
+\end {itemize}
+
+To pinpoint our CanSat’s position as it is falling, we have decided to use the NEO-6M GPS module. As this part was not part of the provided CanSat kit, this part had to be bought online. Due to that, we considered the price to be one of the more important aspects of our decision making. At only \$12 this part exceeded our expectations for what we could do with as minimal a cost as possible. The GPS is being used in order to calculate wind speed through the horizontal movement of our CanSat. This wind speed will then be used to calculate wind shear, which can prove to be a very important piece of information for pilots, especially during takeoff and landing.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image20.png}  
+\caption{\label{fig:NEO-6} Top View of NEO-6}
+\end{figure}
+
+\begin {itemize}
+\item \textbf{10/12/13}: Ground, provides safe paths for excess electricity
+\item \textbf{18}: Serial Data, required for $I^2$C connection
+\item \textbf{19}: Serial Clock, carries clock pulses for synchronization of data transmission
+\end {itemize}
+
+To transmit our data to the ground station, we will be using the Lora E32-900T30D module. This module is very cheap and is still capable of the short distance transmission needed for this project.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image23.png}  
+\caption{\label{fig:LORA E32} Top View of LORA E32}
+\end{figure}
+
+\begin {itemize}
+\item \textbf{6}: VCC, powers the entire module, including both functional blocks and the digital interface
+\item \textbf{3}: Data in, receives data from microcontroller
+\item \textbf{4}: Data Out, sends data that is received out of the transmitter
+\item \textbf{12}: Antenna Interface, will transmit a high frequency signal to the ground station
+\item \textbf{7}: Ground, provides safe path for excess electricity
+\end {itemize}
+
+To act as a microcontroller that will send all the data from the sensors to the transmitter, we have chosen to use the Raspberry Pi Pico. This part was chosen as it was readily available on hand as well as being relatively inexpensive. This microcontroller is very capable of much more than what is needed for this project. The support of different communication protocols allows us to be flexible with our part selection as we are not limited to only $I^2$C or only SPI protocols.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image13.png}  
+\caption{\label{fig:PICo} Documentation of PICO W}
+\end{figure}
+
+\begin{table}[htbp]
+\footnotesize
+\centering
+\begin{tabular}{|p{2.0cm}|p{1cm}|p{1.5cm}|p{3cm}|}
+\hline
+\rowcolor{gray!30}
+\textbf{Device} & \textbf{Voltage (V)} & \textbf{Current (mA)} & \textbf{Power (mW)} \\
+\hline
+Radio Transmitter (E32) & 5.0 & 518 TX / 14 RX & Avg. calc.\footnotemark[1] based on 5 Hz, 2.4kBps \\
+\hline
+Accelerometer (MPU-6050) & 3.3 & 3.9 & $3.3 \times 3.9 = 12.87$\,mW \\
+\hline
+GPS (NEO-6M) & 3.3 & 39 & $3.3 \times 39 = 128.7$\,mW \\
+\hline
+Barometer (BME280) & 1.8 & 2.8 µA & $1.8 \times 2.8 = 5.04$\,µW \\
+\hline
+\rowcolor{yellow!40}
+\textbf{Total} & \textbf{5.0} & \textbf{~561} & \textbf{~558.1\,mW} \\
+\hline
+\end{tabular}
+\caption{Estimated Power Consumption for Payload Components}
+\label{tab:powerbudget}
+\end{table}
+
+\footnotetext[1]{Calculation assumes 5 Hz transmission rate, 2.4 kB/s data rate, and 34+16+12+4 byte packet structure.}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image17.png}  
+\caption{\label{fig:RadioCalc} Power Calculation for E32}
+\end{figure}
+
+
+\subsection{\textbf{RF Design}}
+
+We will be using the EBYTE E32-900T30D at 915 mHz for our radio link. As referenced for the power consumption calculations, our downlink data rate will be at 2.4k bits per second (bps). For our radio module, we will be using the LoRaWAN protocol for its wide support and low power consumption.  
+
+
+\subsection{\textbf{Software Design}}
+
+The CanSat will minimally process data, sending relatively unprocessed information to the ground station. It will use Raspberry Pi Python, and will be programmed using Arduino IDE. Using the data, the ground station will derive all required components to create a valid AMDAR message, and display the data on our simulation software. Our ground station will primarily use C\# and Unity.
+
+The CanSat will receive data from sensors and convert them into standardized units. Air pressure will be converted from Pascals to Hectopascals (100 Pa = 1 hPa). GPS coordinates will be converted from . Temperature does not require conversion from Celsius. Humidity does not need to be converted from relative humidity. Acceleration will be converted from raw sensor values to meters per second squared on three axes.
+
+This data will be converted to a CSV string of the following format: 
+``\textless Time\textgreater, \textless Temperature\textgreater, \textless Humidity\textgreater, \textless Pressure\textgreater, \textless Latitude\textgreater, \textless Longitude\textgreater''. 
+This will be packaged into a data packet, sent to our radio module, and relayed to our ground station. The ground station will then unpack this data and begin calculations.
+
+
+By comparing differences in latitude and longitude across time intervals, we can derive the horizontal speed of the CanSat at various altitudes. We assume that the horizontal speed of the CanSat will closely match the horizontal wind speed at a given elevation. Our parachute will maximize time spent in the air to ensure the CanSat’s speed will reach equilibrium with that of the surrounding air.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{Preliminary Report - Can'tSat/images/image15.png}  
+\caption{\label{fig:DesignFlow} Design Flow Diagram}
+\end{figure}
+
+We can also determine pressure altitude via the barometric formula:
+
+\[
+P = P_0 \left(1 - \frac{Lh}{T} \right)^{\frac{gM}{RL}}, \quad \text{or} \quad 
+h = \frac{T_0}{L} \left[1 - \left(\frac{P_0}{P} \right)^{\frac{RL}{gM}} \right].
+\]
+
+where g is gravitational acceleration (9.81 m/$s^2$), M is the molar mass of air (0.0289644 kg/mol), R is the universal gas constant (8.314 J/molK), L is the temperature lapse rate (roughly 0.0065 K/m), and $P_0$ is the sea level pressure (101325 Pa). Reducing the constants brings us to an equation for height as a function of pressure:
+
+\[
+h = 44330 \cdot (1 - (\frac{P}{101325})^{0.1903})
+\]
+
+After forming the data, we will prepare it into a string compliant to AMDAR specifications. The following tables list the specifications for AMDAR strings according to the AMDAR Onboard Software Functional Requirements Specification. Below are tables of specifications:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image11.png}  
+\caption{\label{fig:Table19} Observation Sequence Format }
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image18.png}  
+\caption{\label{fig:Table20} Optional Parameters Format}
+\end{figure}
+
+Beyond AMDAR, we will also collect other data for use in our Unity simulation. By comparing component wind speeds, we can determine wind shear between any two measurements. This can be determined via simple geometry:
+
+\[
+\textit{Magnitude} = \frac{\sqrt{\Delta U^2 + \Delta V^2}}{\Delta h} 
+\]
+\[
+\textit{Direction} = \arctan\left(\frac{\Delta V}{\Delta U}\right)
+\]
+
+where U and V are component horizontal speeds. Using all of this data, we will be able to plot the path of the CanSat in our 3D Unity simulation.
+
+The simulation uses a 3D topographical map of the launch site collected from OpenTopography. A roughly 20 km by 20 km area was selected, with a maximum elevation of 982 m. The raw form of the collected heightmap is displayed on the right.
+
+After this, we collected imagery from the Sentinel 2 satellite in the same location, and cropped it to match the area we previously selected. We combined the photography featuring spectrums of visible light to create a photorealistic simulation of the launch area terrain. This data was collected from the EU Copernicus Data Space Ecosystem Browser. 
+
+GPS points received from the CanSat will be converted into worldspace points on the Unity simulation, and when interacted with will display information regarding the CanSat at that position, primarily wind shear.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image21.png}  
+\caption{\label{fig:LaunchA1} Launch Area Terrain \#1}
+\end{figure}
+
+Below are top-down and tilted perspectives of the 3d rendered launch site terrain in the simulation:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image22.png}  
+\caption{\label{fig:LaunchA2} Launch Area Terrain \#2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\linewidth]{Preliminary Report - Can'tSat/images/image19.png}  
+\caption{\label{fig:LaunchA3} Launch Area Terrain \#3}
+\end{figure}
+
+We currently expect to send data at 5 Hz, and at a descent rate of roughly 5 m/s, we estimate around 1000 points of data to be sent to the ground station. Not all of these points will be displayed on the Unity simulation: we will only display about 20 that can be interacted with, but the other points will help us create a smooth line to represent the descent path.
+
+Storing all of these data points will not be burdensome on our ground station. Considering the size of the CSV strings, all of the data should be able to be contained in less than 75 kb.
+
+\subsection{\textbf{Recovery System}}
+
+Once the CanSat is ejected, a parachute opens up and controls our descent. The parachute is circular with a hole to control spin, and is attached to the CanSat via a paracord. The parachute itself is made of ripstop nylon due to its great durability and resistance to wear and tear from the wind. We attached the paracord to the parachute by making 8 holes near the edge of the parachute, tying the paracord into a knot, and then doing the same with our CanSat. To increase visibility of our CanSat, we made the parachute neon green.
+
+The shape of our parachute was initially rectangular, but we quickly found out that a rectangular shape only hinders us as it maximized the horizontal displacement of the CanSat which can lead to our data being skewed and the actual CanSat drifting so far that it would be difficult to relocate and find our CanSat. Thus, we decided on a ring-shaped parachute. The circular shape allows for a stable and slow descent, and the hole in the middle would allow for further increased stability and reduced oscillations, leading to the safest, steadiest possible descent.
+
+To figure out the optimal dimensions of the parachute we used this formula to find terminal velocity:
+
+\[
+Vt = \sqrt{\frac{2mg}{pACd}}
+\]
+
+or, rearranging for the area of the parachute,
+
+\[
+A = \frac{2mg}{pv^2CD}
+\]
+
+where p is the air density, measured in the mass per cubic meter of air (1.225kg/$m^3$), A is the area of the parachute in square centimeters when laid flat, Cd is the drag coefficient, a value that describes and quantifies the resistance of an object as it blows in the wind, (roughly 1.3), m is the mass of the CanSat (roughly 0.35kg), and g is the acceleration due to gravity (9.81m/$s^2$).
+
+Assuming terminal velocity will be 5m/s, our parachute should have an area of approximately 0.17$m^2$. Using geometry, \(A = \pi r^2\), we can determine the radius of our parachute to be roughly 0.23m, or 23cm. The radius of the spill hole should be around a fifth of the whole parachute’s radius, so it would be around 4.6cm.
+
+The expected descent rate would be 5m/s, and the flight time would be approximately 216 seconds.
+
+
+\section{\textbf{Project Planning}}
+
+\subsection{Time Schedule of the CanSat Presentation}
+
+\begin{center}
+\rowcolors{2}{white}{gray!10}
+\begin{tabular}{|p{2cm}|p{4cm}|}
+\hline
+\rowcolor{orange!30}
+\textbf{Date} & \textbf{Milestones} \\
+\hline
+March 1 & Final prep meeting \\
+March 9 & Preliminary Design Report due \\
+March 15 & Finalize design \\
+March 23 & Finalize models for prototypes, begin creating them \\
+March 26 & Tentative First Presentation \\
+March 31 & Starting testing prototypes \\
+April 13 & Finalize prototypes, begin final construction \\
+April 19 & Finish final construction, last minute tweaks \\
+April 21 & Tentative Second Presentation \\
+April 24 & Head to Lethbridge \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{\textbf{Resource Estimation}}
+
+\subsubsection{\textbf{Budget}}
+\begin{center}
+\rowcolors{2}{white}{gray!10}
+\begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|}
+\hline
+\rowcolor{gray!30}
+\textbf{Component Type} & \textbf{Specific Component Name} & \textbf{Cost} \\
+\hline
+Air Pressure Sensor & BME280 & \$0.00* \\
+Air Temperature Sensor & BME280 & \$0.00* \\
+Air Humidity Sensor & BME280 & \$0.00* \\
+Accelerometer & MPU-6050 & \~{}\$4.00 \\
+GPS & NEO-6M & \$12.09 \\
+Transmitter & LoRa E32 & \$14.99 \\
+Bottom Weight (Optional) & TBD & \$10.00 \\
+Altimeter & BME280 & \$0.00* \\
+Radio Antenna & TBD & \~{}\$6.00 \\
+Parachute & 9KM DWLIFE & \$16.78 \\
+Power Button & TBD & \~{}\$0.10 \\
+Microcontroller & Raspberry Pi Pico & \$4.54 \\
+Paracord & TECEUM Paracord & \$10.99 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{\textbf{Test Plan}}
+
+A variety of tests will need to be performed to ensure the functionality of our CanSat.
+
+Firstly, we will perform a test on the power supply of our CanSat. We will charge it fully and then leave it running for over four hours. Afterward, we will measure the remaining battery capacity to ensure the battery life will surpass the required lower bound.
+
+Next, we will perform a test on the sensors of the CanSat to ensure they are correctly calibrated. We will bring the CanSat to areas with known temperatures, pressures, and GPS positions. By comparing our measured values to the known values, we can ensure that all sensors can correctly measure their environments.
+
+Afterwards, we will perform a test on the radio communications. This will involve us turning on the CanSat and enabling the receiver on our ground station. We will take a look at the data that the ground station receives and how it processes it, including from a distance. This will confirm that the communication systems work properly and are accurate, even in conditions similar to the actual launch.
+
+Then, we will perform tests on the software. Providing a realistic generated set of data that may be seen on the launch day, we will see if the Unity visualization correctly displays all of it with reasonable performance. We can also ensure that wind shear calculations and other derivations are correct with the generated data.
+
+Finally, we will perform environmental and flight tests for the CanSat itself. We will drop the CanSat or a test model with similar dimensions and weight from a somewhat high height, modifying the code to release the parachute at a low vertical velocity. There, we can test the efficacy of the release mechanism and the parachute in a low-stakes situation.
+
+\section{\textbf{Outreach Programme}}
+
+The team of Can’tSat firmly believes that outreach and communication are integral to the success and impact of our project. CanSat, as a program, is inherently designed to inspire and cultivate the next generation of engineers, scientists, and innovators. To achieve this goal, Can’tSat is committed to meticulously documenting every critical aspect of our project - from the initial design phase and preparation to the execution and final results. By sharing our journey, including the challenges we face and the milestones we achieve, we aim to not only educate others about aerospace technology but also ignite a passion for STEM in many others, similarly to how CanSat has already done for us.
+
+To maximize our outreach efforts, Can’tSat will leverage multiple platforms and strategies. Physical presentations will play a key role in our communication plan. We plan to present our findings, experiments, and the overall CanSat experience to a wide range of audiences. These presentations will be tailored to engage not only younger students—who are the future of STEM—but also peers, educators, professionals, and community members of all ages. In addition to our in-person presentations, we will utilize digital platforms to extend our reach even further. Not only will emails be sent out to businesses, seeking potential partnerships, our Youtube and Instagram platforms will serve as dynamic hubs for sharing and documenting our progress. Through these platforms, we will post regular updates, detailed explanations of our project’s technical and creative aspects, as well as potential behind-the-scenes on development.
+
+Can’tSat aims to combine physical presentations with a robust digital presence to create a multifaceted outreach strategy that educates, inspires, and connects with diverse audiences, showcasing the value of our project, emphasizing the importance of STEM education and innovation , and leave a lasting impact by encouraging others to pursue their passions in science and engineering.
+
+Please support our Platforms!:
+
+\begin{itemize}
+    \item \url{https://www.youtube.com/@Cantsatteam}
+    \item \url{https://www.instagram.com/_can.tsat66303/?hl=en}
+\end{itemize}
+
+\section{\textbf{Requirements Verification}}
+
+\begin{center}
+\rowcolors{2}{white}{gray!10}
+\begin{tabular}{|p{2cm}|p{4cm}|}
+\hline
+\rowcolor{yellow!30}
+\textbf{Characteristics} & \textbf{Value} \\
+\hline
+Height of CanSat & 100 mm \\
+Mass of CanSat & 350 g \\
+Diameter of CanSat & 60 mm \\
+Flight Time Scheduled & 216 s \\
+Calculated Descend Rate & 5m/s \\
+Operational Duration when ON & 55 h \\
+Total Cost & \$65.44\\
+\hline
+\end{tabular}
+\end{center}
+
+\section{\textbf{References}}
+
+2.3 - Electrical design
+
+\begin{itemize}
+    \item \url {https://www.cdebyte.com/products/E32-900T30D/4#Downloads}
+    \item \url {https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf}
+    \item \url {https://www.waveshare.com/w/upload/2/2c/NEO-6-DataSheet.pdf}
+    \item \url {https://cdn-shop.adafruit.com/datasheets/BST-BMP280-DS001-11.pdf}
+\end{itemize}
+
+NASA Shuttle Radar Topography Mission (SRTM)(2013). Shuttle Radar Topography Mission (SRTM) Global.  Distributed by OpenTopography.  https://doi.org/10.5069/G9445JDF. Accessed: 2025-03-09. 
+
+\end{document}

@@ -1,0 +1,11 @@
+Individual components of the project are licensed separately, as follows:
+
+code/: MIT License; 
+
+electrical/: CERN-OHL-P v2; 
+
+presentations/: CC BY 4.0; 
+
+structure/: CERN-OHL-P v2.
+
+Each listed directory includes a LICENSE file containing the details of the license.
